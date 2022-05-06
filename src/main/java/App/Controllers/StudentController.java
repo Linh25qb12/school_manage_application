@@ -56,6 +56,9 @@ public class StudentController implements Initializable {
     private TextField txtAreaSearch;
 
     @FXML
+    private Label wrongInput;
+
+    @FXML
     private FontAwesomeIconView offFilter;
 
     @FXML
@@ -113,22 +116,27 @@ public class StudentController implements Initializable {
     }
 
     public void addNewStudent(){
-        StudentModel newStudent = new StudentModel(Integer.parseInt(txtAreaId.getText()),
-                                                    txtAreaName.getText(),
-                                                    txtAreaClass.getText(),
-                                                    Integer.parseInt(txtAreaAge.getText()),
-                                                    chbxGender.getValue());
         try{
-            FileWriter fw = new FileWriter("data.txt", true);
-            BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(newStudent.toString());
-            bw.newLine();
-            bw.close();
-            fw.close();
-        }catch (Exception e){
+            StudentModel newStudent = new StudentModel(Integer.parseInt(txtAreaId.getText()),
+                    txtAreaName.getText(),
+                    txtAreaClass.getText(),
+                    Integer.parseInt(txtAreaAge.getText()),
+                    chbxGender.getValue());
+            try{
+                FileWriter fw = new FileWriter("data.txt", true);
+                BufferedWriter bw = new BufferedWriter(fw);
+                bw.write(newStudent.toString());
+                bw.newLine();
+                bw.close();
+                fw.close();
+            }catch (Exception e){
 
+            }
+            tbData.getItems().add(newStudent);
+        }catch (IllegalArgumentException e){
+            wrongInput.setText("Wrong input format ");
         }
-        tbData.getItems().add(newStudent);
+
     }
 
     public void backHome(){
